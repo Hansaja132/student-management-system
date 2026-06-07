@@ -1,14 +1,16 @@
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import Login from "./pages/Login";
+import StudentDashboard from "./pages/student/StudentDashboard";
+
 function App() {
   return (
-    <>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-      <p className="text-lg text-gray-500">
-        This is a sample application using Tailwind CSS with Vite and React.
-      </p>
-      <p className="text-md text-red-600">
-        You can customize this template to build your own application.
-      </p>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<StudentDashboard />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
