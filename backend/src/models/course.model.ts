@@ -47,7 +47,30 @@ export class CourseModel {
     return result.rows[0];
   }
 
-  static async update(id: string, updates: Partial<CreateCourseInput>) {}
+  static async update(id: string, updates: Partial<CreateCourseInput>) {
+    const setClauses: string[] = [];
+    const values: any[] = [];
+    let index = 1;
 
-  static async delete(id: string) {}
+    for (const [key, value] of Object.entries(updates)) {
+      if (value !== undefined) {
+        setClauses.push(`${key} = $${index}`);
+        values.push(value);
+        index++;
+      }
+    }
+
+    if (setClauses.length === 0) return null;
+
+    values.push(id);
+    const query = `UPDATE courses SET ${setClauses.join(", ")}, updated_at = CURRENT_TIMESTAMP WHERE id = $${index} RETURNING *;`;
+    const result = await pool.query(query, values);
+    return result.rows[0];
+  }
+
+  static async delete(id: string) {
+    const query = `DELETE FROM courses WHERE id = $1 RETURNING *;`;
+    const result = await pool.query(query, [id]);
+    return result.rows[0];
+  }
 }

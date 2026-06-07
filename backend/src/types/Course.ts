@@ -1,8 +1,8 @@
 export type Course = {
-  id: number;
+  id: string;
   course_name: string;
   course_code: string;
   description: string;
   credits: number;
-  teacher_id: number;
+  teacher_id: string;
 };
